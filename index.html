@@ -2159,4 +2159,65 @@
     }
   });
 </script>
+<style>
+  /* Supprime le cadre et force le plein écran partout */
+  iframe, .frame-root, .frame-content {
+    border: none !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    z-index: 9999;
+  }
+
+  /* Empêche le site de bouger de gauche à droite sur téléphone */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+    width: 100% !important;
+    height: 100% !important;
+    position: fixed; /* Évite les rebonds bizarres sur mobile */
+  }
+
+  /* Cache les outils d'édition qui créent des bordures bleues */
+  .hovered-element, .clicked-element { 
+    outline: none !important; 
+  }
+</style>
+
+<script>
+  (function() {
+    // 1. Force le "zoom" correct sur téléphone
+    var meta = document.createElement('meta');
+    meta.name = "viewport";
+    meta.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
+    document.getElementsByTagName('head')[0].appendChild(meta);
+
+    // 2. Active le menu "Hamburger" pour le mobile
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('[data-landingsite-mobile-menu-toggle]')) {
+        var menu = document.querySelector('[data-landingsite-mobile-menu]');
+        if (menu) {
+          menu.classList.toggle('hidden');
+          menu.style.display = menu.classList.contains('hidden') ? 'none' : 'block';
+          menu.style.backgroundColor = 'white'; // Assure la visibilité
+        }
+      }
+    });
+
+    // 3. Correction des images trop larges sur mobile
+    var fixImages = function() {
+      var imgs = document.querySelectorAll('img');
+      imgs.forEach(function(img) {
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
+      });
+    };
+    window.onload = fixImages;
+  })();
+</script>
+
 
